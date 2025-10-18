@@ -1,99 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 2em;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    h1 {
       text-align: center;
-      background: #f4f4f4;
-      padding: 40px;
+      color: #444;
     }
-    #quoteDisplay {
-      background: white;
-      padding: 20px;
+
+    #quoteContainer {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      font-size: 1.2em;
-      min-height: 50px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     }
-    input[type="text"], select {
-      margin: 5px;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 220px;
+
+    .quote {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
     }
-    button {
-      padding: 8px 15px;
-      margin: 6px;
-      border: none;
+
+    .quote:last-child {
+      border-bottom: none;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button, .file-label {
       background-color: #007bff;
       color: white;
+      border: none;
+      padding: 10px 15px;
       border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
     }
-    button:hover {
+
+    button:hover, .file-label:hover {
       background-color: #0056b3;
     }
-    .secondary {
-      background-color: #6c757d;
-    }
-    .controls {
-      margin-top: 15px;
-    }
-    label.file-label {
-      display: inline-block;
-      padding: 8px 15px;
+
+    input[type="text"] {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ccc;
       border-radius: 5px;
-      background-color: #17a2b8;
-      color: white;
-      cursor: pointer;
-      margin: 6px;
     }
-    #importFile {
+
+    input[type="file"] {
       display: none;
     }
-    small {
-      color: #444;
-      display: block;
-      margin-top: 6px;
+
+    #syncStatus {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .form-container {
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-  <!-- Category filter -->
-  <div>
-    <label for="categoryFilter">Filter by Category:</label>
-    <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-      <!-- Populated dynamically -->
-    </select>
+  <div id="quoteContainer"></div>
+
+  <div class="form-container">
+    <input type="text" id="quoteText" placeholder="Enter quote text" />
+    <input type="text" id="quoteAuthor" placeholder="Enter author" />
+    <input type="text" id="quoteCategory" placeholder="Enter category" />
+    <button onclick="addQuote()">Add Quote</button>
   </div>
-
-  <div id="quoteDisplay">Click "Show New Quote" to begin.</div>
-
-  <button id="newQuote">Show New Quote</button>
-  <button id="showAll" class="secondary">Show All Quotes</button>
-
-  <h3>Add a New Quote</h3>
-  <div id="quoteForm"></div>
 
   <div class="controls">
-    <button id="exportBtn">Export Quotes</button>
+    <button id="exportBtn" onclick="exportToJsonFile()">Export Quotes</button>
     <label class="file-label" for="importFile">Import Quotes</label>
-    <input type="file" id="importFile" accept=".json,application/json" />
-    <button id="clearStorage" class="secondary">Clear Local Storage</button>
-    <button id="syncServer">Sync with Server</button>
-
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+    <button onclick="syncWithServer()">Sync with Server</button>
   </div>
 
-  <small id="status">Status: ready</small>
+  <div id="syncStatus">Status: Waiting for sync...</div>
 
   <script src="script.js"></script>
 </body>

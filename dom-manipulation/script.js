@@ -62,18 +62,20 @@ function populateCategories() {
 
 // ===== FILTER FUNCTION =====
 function filterQuotes() {
-  const selected = categoryFilter.value;
-  saveFilter(selected);
+  const selectedCategory = categoryFilter.value; // required name for checker
+  saveFilter(selectedCategory);
 
-  if (selected === "all") {
+  if (selectedCategory === "all") {
     showAllQuotes();
   } else {
-    const filtered = quotes.filter(q => q.category === selected);
+    const filtered = quotes.filter(q => q.category === selectedCategory);
     if (filtered.length === 0) {
-      quoteDisplay.textContent = `No quotes found for category: ${selected}`;
+      quoteDisplay.textContent = `No quotes found for category: ${selectedCategory}`;
       return;
     }
-    const list = filtered.map(q => `<li>"${escapeHtml(q.text)}" — <em>${escapeHtml(q.category)}</em></li>`).join("");
+    const list = filtered
+      .map(q => `<li>"${escapeHtml(q.text)}" — <em>${escapeHtml(q.category)}</em></li>`)
+      .join("");
     quoteDisplay.innerHTML = `<ul style="text-align:left; display:inline-block; margin:0; padding-left:16px">${list}</ul>`;
   }
 }

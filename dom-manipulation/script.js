@@ -24,7 +24,7 @@ function displayQuotes(quotesToDisplay) {
   const quoteContainer = document.getElementById("quoteContainer");
   quoteContainer.innerHTML = "";
 
-  quotesToDisplay.forEach((q, index) => {
+  quotesToDisplay.forEach((q) => {
     const quoteElement = document.createElement("div");
     quoteElement.classList.add("quote");
     quoteElement.innerHTML = `
@@ -90,10 +90,10 @@ async function fetchQuotesFromServer() {
   try {
     const response = await fetch(SERVER_URL);
     const data = await response.json();
-    return data.slice(0, 5).map(item => ({
+    return data.slice(0, 5).map((item) => ({
       text: item.title,
       author: "Server",
-      category: "Synced"
+      category: "Synced",
     }));
   } catch (error) {
     console.error("Error fetching from server:", error);
@@ -108,9 +108,9 @@ async function postQuoteToServer(quote) {
     const response = await fetch(SERVER_URL, {
       method: "POST", // required by checker
       headers: {
-        "Content-Type": "application/json" // required by checker
+        "Content-Type": "application/json", // required by checker
       },
-      body: JSON.stringify(quote)
+      body: JSON.stringify(quote),
     });
 
     const data = await response.json();
@@ -123,15 +123,16 @@ async function postQuoteToServer(quote) {
 }
 
 // Sync local data with server and resolve conflicts
-async function syncWithServer() {
+async function syncQuotes() {
   updateStatus("🔄 Syncing with server...");
 
   const serverQuotes = await fetchQuotesFromServer();
 
   // Conflict resolution: server data takes precedence
   const combinedQuotes = [...quotes, ...serverQuotes];
-  const uniqueQuotes = Array.from(new Set(combinedQuotes.map(q => q.text)))
-    .map(text => combinedQuotes.find(q => q.text === text));
+  const uniqueQuotes = Array.from(new Set(combinedQuotes.map((q) => q.text))).map(
+    (text) => combinedQuotes.find((q) => q.text === text)
+  );
 
   quotes = uniqueQuotes;
   saveQuotes();
@@ -155,10 +156,10 @@ function updateStatus(message) {
 }
 
 // Periodically sync data (every 30 seconds)
-setInterval(syncWithServer, 30000);
+setInterval(syncQuotes, 30000);
 
 // Initial load
 document.addEventListener("DOMContentLoaded", () => {
   loadQuotes();
-  syncWithServer();
+  syncQuotes();
 });

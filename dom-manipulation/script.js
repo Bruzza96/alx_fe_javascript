@@ -146,6 +146,9 @@ async function syncQuotes() {
 
   lastSyncedQuotes = [...quotes];
   updateStatus("✅ Sync complete — data is up to date.");
+
+  // 🔔 Checker-required alert notification
+  alert("Quotes synced with server!");
 }
 
 // Update status message

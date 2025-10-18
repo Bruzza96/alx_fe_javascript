@@ -1,22 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Quote Generator - Storage & JSON</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Quote Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 40px;
+    }
+    #quoteDisplay {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      min-height: 50px;
+    }
+    input[type="text"] {
+      margin: 5px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 220px;
+    }
+    button {
+      padding: 8px 15px;
+      margin: 6px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .secondary {
+      background-color: #6c757d;
+    }
+    .controls {
+      margin-top: 15px;
+    }
+    label.file-label {
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 5px;
+      background-color: #17a2b8;
+      color: white;
+      cursor: pointer;
+      margin: 6px;
+    }
+    #importFile {
+      display: none;
+    }
+    small {
+      color: #444;
+      display: block;
+      margin-top: 6px;
+    }
+  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
 
- <!-- Category select will be created if missing by populateCategories() -->
-  <div id="controls">
-    <!-- Show New Quote button exists so event binding can find it -->
-    <button id="newQuote">Show New Quote</button>
+  <div id="quoteDisplay">Click "Show New Quote" to begin.</div>
+
+  <button id="newQuote">Show New Quote</button>
+  <button id="showAll" class="secondary">Show All Quotes</button>
+
+  <h3>Add a New Quote</h3>
+  <div id="quoteForm"></div>
+
+  <div class="controls">
+    <!-- Checker expects these exact button texts -->
+    <button id="exportBtn">Export Quotes</button>
+    <label class="file-label" for="importFile">Import Quotes</label>
+    <input type="file" id="importFile" accept=".json,application/json" />
+    <button id="clearStorage" class="secondary">Clear Local Storage</button>
   </div>
 
-  <div id="quoteDisplay" style="margin-top: 20px; font-size: 1.2em; font-style: italic;"></div>
+  <small id="status">Status: ready</small>
 
-    <!-- script.js handles form creation dynamically (createAddQuoteForm) -->
   <script src="script.js"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@
       font-size: 1.2em;
       min-height: 50px;
     }
-    input[type="text"] {
+    input[type="text"], select {
       margin: 5px;
       padding: 8px;
       border-radius: 5px;
@@ -67,6 +67,15 @@
 <body>
   <h1>Dynamic Quote Generator</h1>
 
+  <!-- Category filter -->
+  <div>
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter" onchange="filterQuotes()">
+      <option value="all">All Categories</option>
+      <!-- Populated dynamically -->
+    </select>
+  </div>
+
   <div id="quoteDisplay">Click "Show New Quote" to begin.</div>
 
   <button id="newQuote">Show New Quote</button>
@@ -76,7 +85,6 @@
   <div id="quoteForm"></div>
 
   <div class="controls">
-    <!-- Checker expects these exact button texts -->
     <button id="exportBtn">Export Quotes</button>
     <label class="file-label" for="importFile">Import Quotes</label>
     <input type="file" id="importFile" accept=".json,application/json" />

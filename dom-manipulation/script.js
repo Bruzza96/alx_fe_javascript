@@ -7,39 +7,35 @@ const quotes = [
 
 // Function to display a random quote and update the DOM
 function showRandomQuote() {
+  // Select a random quote
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const randomQuote = quotes[randomIndex];
 
+  // Display the quote in the DOM
   const quoteDisplay = document.getElementById("quoteDisplay");
   quoteDisplay.innerHTML = `"${randomQuote.text}" - (${randomQuote.category})`;
 }
 
-// Alias for backward compatibility with checkers expecting displayRandomQuote()
-function displayRandomQuote() {
-  showRandomQuote();
-}
-
-// Function to add a new quote dynamically
+// Function to add a new quote
 function addQuote() {
   const newQuoteText = document.getElementById("newQuoteText").value.trim();
   const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
 
   if (newQuoteText && newQuoteCategory) {
+    // Add new quote to array
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
 
-    // Update the DOM to confirm addition
+    // Update the DOM immediately to show confirmation
     const quoteDisplay = document.getElementById("quoteDisplay");
     quoteDisplay.innerHTML = `New quote added: "${newQuoteText}" (${newQuoteCategory})`;
 
-    // Clear the form
+    // Clear input fields
     document.getElementById("newQuoteText").value = "";
     document.getElementById("newQuoteCategory").value = "";
   } else {
-    alert("Please fill in both quote text and category fields.");
+    alert("Please enter both quote text and category.");
   }
 }
 
-// Event listeners for "Show New Quote" button
+// Event listener for "Show New Quote" button
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
-// (Optional) Some checkers expect displayRandomQuote() to be used too:
-document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
